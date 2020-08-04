@@ -1,10 +1,10 @@
-#Importación de librerias para trabajars
+#Importación de librerias para trabajar
 import os
 from os import remove
 from werkzeug.utils import secure_filename
 from flask import Flask,flash,request,redirect,send_file,render_template
 
-#Declaracion  de variable que hace referencia a la carpeta contenedora para alojar los archivos
+#Declaración  de variable que hace referencia a la carpeta contenedora para alojar los archivos
 FILE_CONTAINER = './cont/'
 
 app = Flask(__name__, template_folder='templates')
@@ -35,7 +35,7 @@ def upload_file():
         else:
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['FILE_CONTAINER'], filename))
-            print("Archivo guardado con exito")
+            print("Archivo guardado con éxito")
             #Se redirecciona a la pagina principal
             return redirect('/')
 
@@ -44,7 +44,7 @@ def upload_file():
 def remove_file(filename):
     file_path = FILE_CONTAINER + filename
     remove(file_path)
-    print("Archivo eliminado con exito")
+    print("Archivo eliminado con éxito")
     return redirect('/')
 
 #Funcion para la descarga de archivos
@@ -54,5 +54,6 @@ def return_files_tut(filename):
     print(file_path)
     return send_file(file_path, as_attachment=True, attachment_filename='')
 
+#Se debe modificar la ip que corresponda al equipo en donde se esta corriendo
 if __name__ == "__main__":
     app.run(host='192.168.0.114')
