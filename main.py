@@ -1,21 +1,17 @@
-#Acontinuacion lo que se realiza es importar las librerias necesarias para trabajaar
+#Importación de librerias para trabajars
 import os
 from os import remove
 from werkzeug.utils import secure_filename
 from flask import Flask,flash,request,redirect,send_file,render_template
 
-#Declaramos variables donde hace referencia a la carpeta contenedora para alojar los archivos
+#Declaracion  de variable que hace referencia a la carpeta contenedora para alojar los archivos
 FILE_CONTAINER = './cont/'
 
-#app = Flask(__name__)
 app = Flask(__name__, template_folder='templates')
 app.debug = True
 app.config['FILE_CONTAINER'] = FILE_CONTAINER
 
-
-
-
-#Principal, es la pagina donde se mostrarra todo el contenido  
+#Hace referencia al index de nuestra página  
 @app.route('/')
 def mostrar_cont():
     dir = FILE_CONTAINER
@@ -23,7 +19,7 @@ def mostrar_cont():
         ficheros = [fichero.name for fichero in ficheros if fichero.is_file()]
     return render_template('index.html',ficheros=ficheros)
     
-#Este es la funcion que permitira subir los archivos 
+#Funcion para subir archivos 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -40,11 +36,10 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['FILE_CONTAINER'], filename))
             print("Archivo guardado con exito")
-        #Se redirecciona a la pagina principal
+            #Se redirecciona a la pagina principal
             return redirect('/')
-    return render_template('/')
 
-#Esta es la funcion que se encarga de la eliminacion de los archivos 
+#Función para la eliminacion de archivos 
 @app.route('/removefile/<filename>')
 def remove_file(filename):
     file_path = FILE_CONTAINER + filename
@@ -52,8 +47,8 @@ def remove_file(filename):
     print("Archivo eliminado con exito")
     return redirect('/')
 
-#Esta funcion permite descargar los archivos
-@app.route('/return-files/<filename>')
+#Funcion para la descarga de archivos
+@app.route('/download_file/<filename>')
 def return_files_tut(filename):
     file_path = FILE_CONTAINER + filename
     print(file_path)
